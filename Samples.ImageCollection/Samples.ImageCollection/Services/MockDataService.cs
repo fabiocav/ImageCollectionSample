@@ -43,7 +43,7 @@ namespace Samples.ImageCollection.Services
                 new Category { Id = "1", Name = "Bicycles", Description = "Pictures of bicycles" },
                 new Category { Id = "2", Name = "Cars", Description = "They go vroom" },
                 new Category { Id = "3", Name = "Airplanes", Description = "Look up!" },
-                new Category { Id = "4", Name = "Boats", Description = "They float (most of the time)" }
+                new Category { Id = "4", Name = "Boats", Description = "They float (we hope)" }
             };
         }
 

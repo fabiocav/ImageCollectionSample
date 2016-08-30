@@ -21,7 +21,7 @@ namespace Samples.ImageCollection.UWP
 
             var file = await picker.PickSingleFileAsync();
 
-            file = await file?.CopyAsync(ApplicationData.Current.LocalFolder);
+            file = await file?.CopyAsync(ApplicationData.Current.LocalFolder, Guid.NewGuid().ToString());
             
             return file?.Path;
         }

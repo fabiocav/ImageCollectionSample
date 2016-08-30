@@ -18,8 +18,6 @@
     <controls:HorizontalImageList ItemsSource="{Binding Images}" Grid.Row="1" WidthRequest="300">
       <controls:HorizontalImageList.ItemTemplate>
         <DataTemplate>
-          <StackLayout>
-            <Label Text="{Binding Id}"/>
             <Image Source="{Binding ImageSource}" HeightRequest="100" WidthRequest="100" >
               <Image.GestureRecognizers>
                 <TapGestureRecognizer
@@ -27,7 +25,6 @@
                   CommandParameter="{Binding}" />
               </Image.GestureRecognizers>
             </Image>
-            </StackLayout>
         </DataTemplate>
       </controls:HorizontalImageList.ItemTemplate>
     </controls:HorizontalImageList>
