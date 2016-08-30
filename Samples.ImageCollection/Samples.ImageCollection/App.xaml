@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Application
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Samples.ImageCollection.App"
+    xmlns:sample="clr-namespace:Samples.ImageCollection.Views">
+  <Application.Resources>
+    <ResourceDictionary>
+      <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="20" WinPhone="20" x:Key="CaptionSize"></OnPlatform>
+      <Style x:Key="CaptionStyle" TargetType="Label">
+        <Setter Property="Font" Value="{DynamicResource CaptionFont}" />
+        <Setter Property="FontSize" Value="{DynamicResource CaptionSize}" />
+      </Style>
+    </ResourceDictionary>
+  </Application.Resources>
+</Application>

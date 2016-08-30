@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Samples.ImageCollection.Views.CategoryView"
+             xmlns:controls="clr-namespace:Samples.ImageCollection.Controls"
+             x:Name="CategoryPage"
+             Title="{Binding CategoryName}">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="120"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    
+    <Image Grid.Row="0" Source="{Binding SelectedImage}">
+      
+    </Image>
+    <controls:HorizontalImageList ItemsSource="{Binding Images}" Grid.Row="1" WidthRequest="300">
+      <controls:HorizontalImageList.ItemTemplate>
+        <DataTemplate>
+          <StackLayout>
+            <Label Text="{Binding Id}"/>
+            <Image Source="{Binding ImageSource}" HeightRequest="100" WidthRequest="100" >
+              <Image.GestureRecognizers>
+                <TapGestureRecognizer
+                  Command="{Binding Path=BindingContext.ShowImageCommand, Source={x:Reference CategoryPage}}"
+                  CommandParameter="{Binding}" />
+              </Image.GestureRecognizers>
+            </Image>
+            </StackLayout>
+        </DataTemplate>
+      </controls:HorizontalImageList.ItemTemplate>
+    </controls:HorizontalImageList>
+    <Button Text="Add image" Command="{Binding AddImageCommand}" Grid.Row="2"/>
+  </Grid>
+</ContentPage>

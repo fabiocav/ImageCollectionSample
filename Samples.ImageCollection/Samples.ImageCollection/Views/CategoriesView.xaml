@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="CategoriesPage"
+             x:Class="Samples.ImageCollection.Views.CategoriesView"
+             Title="Categories">
+  <StackLayout>
+    <ListView ItemsSource="{Binding Categories}">
+      <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <StackLayout Orientation="Vertical" Padding="5">
+                <Label Text="{Binding Name}">
+                  <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                      Command="{Binding Path=BindingContext.CategorySelectedCommand, Source={x:Reference CategoriesPage}}"
+                      CommandParameter="{Binding}" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="{Binding Description}" FontSize="10"></Label>
+              </StackLayout>
+            </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </StackLayout>
+</ContentPage>
