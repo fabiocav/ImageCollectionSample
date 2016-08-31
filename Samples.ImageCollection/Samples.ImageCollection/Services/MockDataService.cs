@@ -33,6 +33,11 @@ namespace Samples.ImageCollection.Services
             _images.Add("1", bicycles);
         }
 
+        public Task AddImage(ImageReference imageReference)
+        {
+            return Task.FromResult(0);
+        }
+
         public async Task<IEnumerable<Category>> GetCategoriesAsync()
         {
             // Simulate delay

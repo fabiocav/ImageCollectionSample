@@ -23,6 +23,13 @@ namespace Samples.ImageCollection.ViewModels
         {
             get
             {
+                if (_imageReference.Uri == null)
+                {
+                    // TODO: Placeholder
+                    return null;
+                }
+
+                // TODO: Cache this...
                 if (_imageReference.Uri.StartsWith("http"))
                 {
                     return ImageSource.FromUri(new Uri(_imageReference.Uri));

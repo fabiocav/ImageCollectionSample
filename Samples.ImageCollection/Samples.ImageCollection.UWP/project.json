@@ -1,6 +1,10 @@
 ﻿{
   "dependencies": {
+    "Microsoft.Azure.Mobile.Client": "2.1.1",
+    "Microsoft.Azure.Mobile.Client.Files": "1.0.0-beta-2-160819",
+    "Microsoft.Azure.Mobile.Client.SQLiteStore": "2.1.1",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
+    "WindowsAzure.Storage": "7.2.0",
     "Xamarin.Forms": "2.3.1.114"
   },
   "frameworks": {

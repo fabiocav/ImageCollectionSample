@@ -107,18 +107,20 @@ namespace Samples.ImageCollection.ViewModels
 
         private async Task AddImageAsync(object obj)
         {
-            var imageSelector = DependencyService.Get<IImageSelector>();
+            var imageSelector = DependencyService.Get<IFileHelper>();
 
-            var photo = await imageSelector.SelectImageAsync();
+            var photo = await imageSelector.SelectImageAsync(_category.Id);
 
             if (photo != null)
             {
                 var image = new ImageReference
                 {
                     Id = Guid.NewGuid().ToString(),
+                    CategoryId = _category.Id,
                     Uri = photo
                 };
 
+                await _dataService.AddImage(image);
                 Images.Add(new ImageReferenceViewModel(image));
             }
         }

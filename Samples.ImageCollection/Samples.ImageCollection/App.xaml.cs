@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,10 +17,24 @@ namespace Samples.ImageCollection
         {
             InitializeComponent();
 
-            var categoriesPage = new CategoriesView();
-            NavigationPage root = new NavigationPage(categoriesPage);
-            categoriesPage.ViewModel = new CategoriesViewModel(new MockDataService(), root.Navigation);
-            MainPage = root;
+            MainPage = new SplashView();
+
+            var dataService = new AzureDataService();
+
+            dataService.Initialize()
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        Debug.WriteLine("Faulted");
+                    }
+
+                    var categoriesPage = new CategoriesView();
+                    NavigationPage root = new NavigationPage(categoriesPage);
+
+                    categoriesPage.ViewModel = new CategoriesViewModel(dataService, root.Navigation);
+                    MainPage = root;
+                }, TaskScheduler.FromCurrentSynchronizationContext());
         }
     }
 }

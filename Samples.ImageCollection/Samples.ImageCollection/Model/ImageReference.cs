@@ -10,6 +10,8 @@ namespace Samples.ImageCollection.Model
     {
         public string Id { get; set; }
 
+        public string CategoryId { get; set; }
+
         public string Uri { get; set; }
     }
 }
