@@ -16,7 +16,7 @@ namespace Samples.ImageCollection.UWP
 {
     public class FileHelper : IFileHelper
     {
-        public async Task<string> SelectImageAsync(string categoryId)
+        public async Task<string> SelectImageAsync(string referenceId)
         {
             var picker = new FileOpenPicker();
             picker.ViewMode = PickerViewMode.Thumbnail;
@@ -25,16 +25,34 @@ namespace Samples.ImageCollection.UWP
 
             var file = await picker.PickSingleFileAsync();
 
-            IStorageFolder folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(categoryId, CreationCollisionOption.OpenIfExists);
-            
-            file = await file?.CopyAsync(folder, Guid.NewGuid().ToString() + Path.GetExtension(file.Name));
-            
-            return file?.Path;
+            IStorageFolder baseFolder = await StorageFolder.GetFolderFromPathAsync(GetFilesPath());
+            IStorageFolder folder = await baseFolder.CreateFolderAsync(referenceId, CreationCollisionOption.OpenIfExists);
+
+            if (file != null)
+            {
+                file = await file.CopyAsync(folder, Guid.NewGuid().ToString() + Path.GetExtension(file.Name));
+                return Path.GetFileName(file.Path);
+            }
+
+            return  null;
         }
 
-        public async Task DownloadFileAsync<T>(IMobileServiceSyncTable<T> table, MobileServiceFile file, string targetPath)
+        public async Task DownloadFileAsync<T>(IMobileServiceSyncTable<T> table, MobileServiceFile file, string targetPath, int attempt = 0)
         {
-            await table.DownloadFileAsync(file, targetPath);
+            try
+            {
+                await table.DownloadFileAsync(file, targetPath);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                DeleteLocalFile(file);
+
+                if (attempt < 3)
+                {
+                    await Task.Delay(300)
+                        .ContinueWith(async t => await DownloadFileAsync(table, file, targetPath, attempt++));
+                }
+            }
         }
 
         public async Task UploadFileAsync<T>(IMobileServiceSyncTable<T> table, MobileServiceFile file, string filePath)
@@ -47,9 +65,21 @@ namespace Samples.ImageCollection.UWP
             return new PathMobileServiceFileDataSource(filePath);
         }
 
+        private string GetFilesPath()
+        {
+            string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "files");
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            return path;
+        }
+
         public string GetLocalFilePath(string itemId, string fileName)
         {
-            string recordFilesPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, itemId);
+            string recordFilesPath = Path.Combine(GetFilesPath(), itemId);
 
             if (!Directory.Exists(recordFilesPath))
             {
@@ -68,5 +98,7 @@ namespace Samples.ImageCollection.UWP
                 File.Delete(localPath);
             }
         }
+
+        public bool Exists(string filepath) => File.Exists(filepath);
     }
 }

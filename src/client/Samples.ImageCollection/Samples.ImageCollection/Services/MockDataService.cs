@@ -19,15 +19,15 @@ namespace Samples.ImageCollection.Services
         {
             var bicycles = new List<ImageReference>
             {
-                new ImageReference { Id = "1", Uri = "http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2015/12/Fortified-Bicycle-Invincible-Theft-Proof-Bike-10.jpg" },
-                new ImageReference { Id = "2", Uri = "http://www.cpsc.gov/Global/Images/Recall/2016/16061/2015FocusIzalcoMAX4.jpg" },
-                new ImageReference { Id = "3", Uri = "http://twentynineinches.com/wp-content/uploads/2010/06/Montare.jpg" },
-                new ImageReference { Id = "11", Uri = "http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2015/12/Fortified-Bicycle-Invincible-Theft-Proof-Bike-10.jpg" },
-                new ImageReference { Id = "21", Uri = "http://www.cpsc.gov/Global/Images/Recall/2016/16061/2015FocusIzalcoMAX4.jpg" },
-                new ImageReference { Id = "31", Uri = "http://twentynineinches.com/wp-content/uploads/2010/06/Montare.jpg" },
-                new ImageReference { Id = "12", Uri = "http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2015/12/Fortified-Bicycle-Invincible-Theft-Proof-Bike-10.jpg" },
-                new ImageReference { Id = "22", Uri = "http://www.cpsc.gov/Global/Images/Recall/2016/16061/2015FocusIzalcoMAX4.jpg" },
-                new ImageReference { Id = "32", Uri = "http://twentynineinches.com/wp-content/uploads/2010/06/Montare.jpg" }
+                new ImageReference { Id = "1", FileName = "http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2015/12/Fortified-Bicycle-Invincible-Theft-Proof-Bike-10.jpg" },
+                new ImageReference { Id = "2", FileName = "http://www.cpsc.gov/Global/Images/Recall/2016/16061/2015FocusIzalcoMAX4.jpg" },
+                new ImageReference { Id = "3", FileName = "http://twentynineinches.com/wp-content/uploads/2010/06/Montare.jpg" },
+                new ImageReference { Id = "11", FileName = "http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2015/12/Fortified-Bicycle-Invincible-Theft-Proof-Bike-10.jpg" },
+                new ImageReference { Id = "21", FileName = "http://www.cpsc.gov/Global/Images/Recall/2016/16061/2015FocusIzalcoMAX4.jpg" },
+                new ImageReference { Id = "31", FileName = "http://twentynineinches.com/wp-content/uploads/2010/06/Montare.jpg" },
+                new ImageReference { Id = "12", FileName = "http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2015/12/Fortified-Bicycle-Invincible-Theft-Proof-Bike-10.jpg" },
+                new ImageReference { Id = "22", FileName = "http://www.cpsc.gov/Global/Images/Recall/2016/16061/2015FocusIzalcoMAX4.jpg" },
+                new ImageReference { Id = "32", FileName = "http://twentynineinches.com/wp-content/uploads/2010/06/Montare.jpg" }
             };
 
             _images.Add("1", bicycles);

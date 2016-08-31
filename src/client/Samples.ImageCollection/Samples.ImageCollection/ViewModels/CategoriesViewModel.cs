@@ -18,11 +18,13 @@ namespace Samples.ImageCollection.ViewModels
         private ObservableCollection<Category> _categories;
         private IDataService _dataService;
         private readonly INavigation _navigation;
+        private readonly IFileHelper _fileHelper;
 
-        public CategoriesViewModel(IDataService dataService, INavigation navigation)
+        public CategoriesViewModel(IDataService dataService, INavigation navigation, IFileHelper fileHelper)
         {
             _dataService = dataService;
             _navigation = navigation;
+            _fileHelper = fileHelper;
 
             CategorySelectedCommand = new Command<Category>(CategorySelected);
         }
@@ -66,7 +68,7 @@ namespace Samples.ImageCollection.ViewModels
 
         private void CategorySelected(Category category)
         {
-            _navigation.PushAsync(new CategoryView(new CategoryViewModel(category, _dataService, _navigation)));
+            _navigation.PushAsync(new CategoryView(new CategoryViewModel(category, _dataService, _navigation, _fileHelper)));
         }
 
         private async Task LoadCategories()

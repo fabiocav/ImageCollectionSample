@@ -15,15 +15,21 @@ namespace Samples.ImageCollection.Services
 {
     public class AzureDataService : IDataService
     {
-        private IMobileServiceSyncTable<Category> _categoryTable;
         private MobileServiceClient _mobileService = new MobileServiceClient("https://imagecollection.azurewebsites.net/");
+        private IMobileServiceSyncTable<Category> _categoryTable;
+        private IMobileServiceSyncTable<ImageReference> _imageReferenceTable;
 
         public async Task Initialize()
         {
-            var store = new MobileServiceSQLiteStore(Guid.NewGuid().ToString() + "localdata8.db");
+            string storeName = "localdata.db";
+            //storeName = Guid.NewGuid().ToString() + storeName;
+
+            var store = new MobileServiceSQLiteStore(storeName);
             store.DefineTable<Category>();
+            store.DefineTable<ImageReference>();
 
             _categoryTable = _mobileService.GetSyncTable<Category>();
+            _imageReferenceTable = _mobileService.GetSyncTable<ImageReference>();
 
             this._mobileService.InitializeFileSyncContext(new ImageFileSyncHandler<Category>(_categoryTable), store);
             await _mobileService.SyncContext.InitializeAsync(store, StoreTrackingOptions.AllNotificationsAndChangeDetection);
@@ -43,9 +49,10 @@ namespace Samples.ImageCollection.Services
         public async Task SyncAsync()
         {
             await _mobileService.SyncContext.PushAsync();
-            await _categoryTable.PushFileChangesAsync();
+            await _imageReferenceTable.PushFileChangesAsync();
 
             await _categoryTable.PullAsync("categories", _categoryTable.CreateQuery());
+            await _imageReferenceTable.PullAsync("imagerefs", _imageReferenceTable.CreateQuery());
         }
 
         public Task<IEnumerable<Category>> GetCategoriesAsync()
@@ -56,21 +63,16 @@ namespace Samples.ImageCollection.Services
         public async Task<IEnumerable<ImageReference>> GetImages(string categoryId)
         {
             var fileHelper = DependencyService.Get<IFileHelper>();
-            var files = await _categoryTable.GetFilesAsync(new Category { Id = categoryId });
-
-            return files.Select(f => new ImageReference
-            {
-                Id = f.Id,
-                CategoryId = f.ParentId,
-                Uri = fileHelper.GetLocalFilePath(categoryId, f.Name)
-            });
+            return await _imageReferenceTable.ReadAsync(_imageReferenceTable.CreateQuery().Where(r => r.CategoryId == categoryId));
         }
 
         public async Task AddImage(ImageReference imageReference)
         {
-            string fileName = Path.GetFileName(imageReference.Uri);
-            await _categoryTable.AddFileAsync(new Category { Id = imageReference.CategoryId },  fileName);
-            await _categoryTable.PushFileChangesAsync();
+            string fileName = Path.GetFileName(imageReference.FileName);
+
+            await _imageReferenceTable.InsertAsync(imageReference);
+            await _imageReferenceTable.AddFileAsync(imageReference,  fileName);
+            await SyncAsync();
         }
     }
 }

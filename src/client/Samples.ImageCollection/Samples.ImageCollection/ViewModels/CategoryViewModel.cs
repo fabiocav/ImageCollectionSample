@@ -19,12 +19,14 @@ namespace Samples.ImageCollection.ViewModels
         private readonly INavigation _navigation;
         private bool _isBusy;
         private ImageSource _selectedImage;
+        private readonly IFileHelper _fileHelper;
 
-        public CategoryViewModel(Category category, IDataService dataService, INavigation navigation)
+        public CategoryViewModel(Category category, IDataService dataService, INavigation navigation, IFileHelper fileHelper)
         {
             _category = category;
             _dataService = dataService;
             _navigation = navigation;
+            _fileHelper = fileHelper;
 
             ShowImageCommand = new Command<ImageReferenceViewModel>(ShowImage);
             AddImageCommand = new Command(async o => await AddImageAsync(o));
@@ -92,7 +94,7 @@ namespace Samples.ImageCollection.ViewModels
                 IsBusy = true;
 
                 var categories = await _dataService.GetImages(_category.Id);
-                Images = new ObservableCollection<ImageReferenceViewModel>(categories.Select(i=>new ViewModels.ImageReferenceViewModel(i)));
+                Images = new ObservableCollection<ImageReferenceViewModel>(categories.Select(i=>new ViewModels.ImageReferenceViewModel(i, _fileHelper)));
             }
             finally
             {
@@ -107,21 +109,20 @@ namespace Samples.ImageCollection.ViewModels
 
         private async Task AddImageAsync(object obj)
         {
-            var imageSelector = DependencyService.Get<IFileHelper>();
-
-            var photo = await imageSelector.SelectImageAsync(_category.Id);
+            string fileId = Guid.NewGuid().ToString();
+            var photo = await _fileHelper.SelectImageAsync(fileId);
 
             if (photo != null)
             {
                 var image = new ImageReference
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = fileId,
                     CategoryId = _category.Id,
-                    Uri = photo
+                    FileName = photo
                 };
 
                 await _dataService.AddImage(image);
-                Images.Add(new ImageReferenceViewModel(image));
+                Images.Add(new ImageReferenceViewModel(image, _fileHelper));
             }
         }
     }

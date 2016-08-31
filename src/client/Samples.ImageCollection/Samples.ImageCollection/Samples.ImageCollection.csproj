@@ -42,6 +42,7 @@
     <Compile Include="ImageFileSyncHandler.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\ImageReference.cs" />
+    <Compile Include="Model\ImageReferenceInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AzureDataService.cs" />
     <Compile Include="Services\IDataService.cs" />

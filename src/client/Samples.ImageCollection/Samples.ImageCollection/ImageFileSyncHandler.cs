@@ -47,7 +47,10 @@ namespace Samples.ImageCollection
             else
             {
                 var filepath = _fileHelper.GetLocalFilePath(file.ParentId, file.Name);
-                await _fileHelper.DownloadFileAsync(couponTable, file, filepath);
+                if (!_fileHelper.Exists(filepath))
+                {
+                    await _fileHelper.DownloadFileAsync(couponTable, file, filepath);
+                }
             }
         }
 

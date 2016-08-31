@@ -18,8 +18,9 @@ namespace Samples.ImageCollection.Services
 
         Task UploadFileAsync<T>(IMobileServiceSyncTable<T> table, MobileServiceFile file, string filePath);
 
-        Task DownloadFileAsync<T>(IMobileServiceSyncTable<T> table, MobileServiceFile file, string targetPath);
+        Task DownloadFileAsync<T>(IMobileServiceSyncTable<T> table, MobileServiceFile file, string targetPath, int attempt = 0);
 
         IMobileServiceFileDataSource GetMobileServiceDataSource(string filePath);
+        bool Exists(string filepath);
     }
 }

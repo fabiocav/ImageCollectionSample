@@ -32,7 +32,8 @@ namespace Samples.ImageCollection
                     var categoriesPage = new CategoriesView();
                     NavigationPage root = new NavigationPage(categoriesPage);
 
-                    categoriesPage.ViewModel = new CategoriesViewModel(dataService, root.Navigation);
+                    IFileHelper fileHelper = DependencyService.Get<IFileHelper>();
+                    categoriesPage.ViewModel = new CategoriesViewModel(dataService, root.Navigation, fileHelper);
                     MainPage = root;
                 }, TaskScheduler.FromCurrentSynchronizationContext());
         }
