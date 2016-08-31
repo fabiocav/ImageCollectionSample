@@ -95,6 +95,11 @@ namespace Samples.ImageCollection.ViewModels
 
                 var categories = await _dataService.GetImages(_category.Id);
                 Images = new ObservableCollection<ImageReferenceViewModel>(categories.Select(i=>new ViewModels.ImageReferenceViewModel(i, _fileHelper)));
+
+                if (Images.Any())
+                {
+                    SelectedImage = Images.First().ImageSource;
+                }
             }
             finally
             {

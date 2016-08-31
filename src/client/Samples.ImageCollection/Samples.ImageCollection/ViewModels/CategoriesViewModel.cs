@@ -27,9 +27,16 @@ namespace Samples.ImageCollection.ViewModels
             _fileHelper = fileHelper;
 
             CategorySelectedCommand = new Command<Category>(CategorySelected);
+            SyncCommand = new Command(async o =>
+            {
+                await _dataService.SyncAsync();
+                await LoadCategories();
+            });
         }
 
         public ICommand CategorySelectedCommand { get; }
+
+        public ICommand SyncCommand { get; }
 
         public ObservableCollection<Category> Categories
         {

@@ -60,5 +60,10 @@ namespace Samples.ImageCollection.Services
 
             return images ?? Enumerable.Empty<ImageReference>();
         }
+
+        public Task SyncAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -35,7 +35,7 @@ namespace Samples.ImageCollection.Services
             await _mobileService.SyncContext.InitializeAsync(store, StoreTrackingOptions.AllNotificationsAndChangeDetection);
 
             //await LoadTestDataAsync();
-            await SyncAsync();
+            //await SyncAsync();
         }
 
         private async Task LoadTestDataAsync()
@@ -72,7 +72,6 @@ namespace Samples.ImageCollection.Services
 
             await _imageReferenceTable.InsertAsync(imageReference);
             await _imageReferenceTable.AddFileAsync(imageReference,  fileName);
-            await SyncAsync();
         }
     }
 }

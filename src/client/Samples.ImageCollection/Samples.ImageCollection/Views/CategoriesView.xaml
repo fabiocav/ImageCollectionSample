@@ -23,5 +23,6 @@
         </DataTemplate>
       </ListView.ItemTemplate>
     </ListView>
+    <Button Text="Sync" Command="{Binding SyncCommand}"/>
   </StackLayout>
 </ContentPage>

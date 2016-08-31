@@ -14,5 +14,7 @@ namespace Samples.ImageCollection.Services
         Task<IEnumerable<ImageReference>> GetImages(string categoryId);
 
         Task AddImage(ImageReference imageReference);
+
+        Task SyncAsync();
     }
 }
