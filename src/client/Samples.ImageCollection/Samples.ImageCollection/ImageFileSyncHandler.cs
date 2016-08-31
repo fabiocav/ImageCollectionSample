@@ -15,12 +15,12 @@ namespace Samples.ImageCollection
 {
     public class ImageFileSyncHandler<T> : IFileSyncHandler where T : class
     {
-        private readonly IMobileServiceSyncTable<Category> couponTable;
+        private readonly IMobileServiceSyncTable<Category> _categoriesTable;
         private readonly IFileHelper _fileHelper;
 
         public ImageFileSyncHandler(IMobileServiceSyncTable<Category> categoryTable)
         {
-           couponTable = categoryTable;
+           _categoriesTable = categoryTable;
            _fileHelper = DependencyService.Get<IFileHelper>();
         }
 
@@ -40,20 +40,14 @@ namespace Samples.ImageCollection
 
         public async Task ProcessFileSynchronizationAction(MobileServiceFile file, FileSynchronizationAction action)
         {
-            if (action == FileSynchronizationAction.Delete)
-            {
-                _fileHelper.DeleteLocalFile(file);
-            }
-            else
+            if (action != FileSynchronizationAction.Delete)
             {
                 var filepath = _fileHelper.GetLocalFilePath(file.ParentId, file.Name);
                 if (!_fileHelper.Exists(filepath))
                 {
-                    await _fileHelper.DownloadFileAsync(couponTable, file, filepath);
+                    await _fileHelper.DownloadFileAsync(_categoriesTable, file, filepath);
                 }
             }
         }
-
-
     }
 }

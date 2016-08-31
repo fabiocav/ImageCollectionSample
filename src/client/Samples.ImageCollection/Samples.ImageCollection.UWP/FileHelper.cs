@@ -30,7 +30,7 @@ namespace Samples.ImageCollection.UWP
 
             if (file != null)
             {
-                file = await file.CopyAsync(folder, Guid.NewGuid().ToString() + Path.GetExtension(file.Name));
+                file = await file.CopyAsync(folder, referenceId + Path.GetExtension(file.Name));
                 return Path.GetFileName(file.Path);
             }
 

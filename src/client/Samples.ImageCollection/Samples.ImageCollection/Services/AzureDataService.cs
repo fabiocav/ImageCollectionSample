@@ -15,14 +15,14 @@ namespace Samples.ImageCollection.Services
 {
     public class AzureDataService : IDataService
     {
-        private MobileServiceClient _mobileService = new MobileServiceClient("https://imagecollection.azurewebsites.net/");
+        private MobileServiceClient _mobileService = new MobileServiceClient("https://imagecollectiontest.azurewebsites.net/");
         private IMobileServiceSyncTable<Category> _categoryTable;
         private IMobileServiceSyncTable<ImageReference> _imageReferenceTable;
 
         public async Task Initialize()
         {
             string storeName = "localdata.db";
-            //storeName = Guid.NewGuid().ToString() + storeName;
+            storeName = Guid.NewGuid().ToString() + storeName;
 
             var store = new MobileServiceSQLiteStore(storeName);
             store.DefineTable<Category>();
